@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+  <link href="style.css" rel="stylesheet" />
+  
+</head>
+
+<body>
+  <!-- Ready to start screen -->
+  <div class="start">Start</div>
+
+  <!-- I also referenced the game's logo style when creating the audio interactive content - the pixel style made the audio logo more consistent with the style of the website, so I first found the traditional volume logo and then tweaked it to pixel style in the Pixelme app -->
+  <!-- Volume bar: It consists of three icons, Volume, All Volume and Mute. Click on different icons to control the volume of the audio (ID "audio") in the page. Volume sets the volume to 0.5, All Volume sets the volume to 1, and Mute stops audio playback. -->
+  <div class="speaker">
+    <!-- Half volume -->
+    <img src="static/speaker.png" id="speaker"/>
+    <!-- full volume -->
+    <img src="static/speaker2.png" id="speaker2" />
+    <!-- mute -->
+    <img src="static/mute.png" id="mute"/>
+  </div>
+
+  <div class="main">
+    <!-- head section -->
+    <!--  In order to realize the switching of the glasses and the zoom effect when the mouse is hovering over the head I divided the image into three layers. -->
+    <div class="glasses">
+      <img src="static/glasses1.png" />
+    </div>
+    <!-- head section -->
+    <video src="static/a.mp4" autoplay muted loop></video>
+    <!-- body parts -->
+    <img src="static/body2.png" />
+  </div>
+ 
+  <!-- Like I said before I wanted the site to be stylistically uniform, so I made the toolbar logo like a pixelated volume control key On the page there is a set of eyeglasses images that can be switched by clicking on the "Previous" and "Next" buttons. The eyeglasses images are numbered from 1 to 4, and clicking on these buttons switches between images of different eyeglasses. -->
+  <!-- Toggle-Toolbar -->
+  <div class="tool">
+    <!-- previous one -->
+    <div class="prev"></div>
+    <!-- sunglasses Preview -->
+    <div class="glasses-bg" style="background: url(static/glasses1.png) center/cover no-repeat;"></div>
+    <!-- the next one -->
+    <div class="next"></div>
+  </div>
+
+  <!-- I have set up the audio element (ID "audio") which plays automatically (autoplay) and in a loop mode (loop). This is the background music that plays when the start button is clicked. -->
+  <audio id="audio" src="static/bg.mp3" autoplay="autoplay" loop="loop" preload="auto" style="display: none;"/>
+
+  <script>
+    // At the very beginning I thought that a video game would have a start screen at the beginning so I set it to hide the button when clicked and start playing the audio with the ID "audio".
+    $(".start").click(function(){
+      $(this).fadeOut()
+      $("#audio")[0].play()
+    })
+
+    let glasses = 1
+    //Switch to the next eyeglasses
+    $(".prev").click(function () {
+      glasses -= 1
+      if (glasses < 1) glasses = 1
+      setGlasses(glasses)
+    })
+    // Toggle on the last glasses
+    $(".next").click(function () {
+      glasses += 1
+      if (glasses > 4) glasses = 4
+      setGlasses(glasses)
+    })
+
+    // Change the display of the eyeglasses image and the toolbar eyeglasses preview on a web page to show an image of different eyeglasses. This ability to dynamically change images is used to switch the display of different glasses during user interaction.
+    function setGlasses(index) {
+      $('.glasses img').attr('src', `static/glasses${index}.png`)
+      $('.tool .glasses-bg').attr('style', `background: url(static/glasses${index}.png) center/cover no-repeat;`)
+    }
+
+    // Setting Half Volume
+    $("#speaker").click(function () {
+      $("#audio")[0].play()
+      $("#audio")[0].volume = 0.5
+    })
+    // Setting the full volume
+    $("#speaker2").click(function () {
+      $("#audio")[0].play()
+      $("#audio")[0].volume = 1
+    })
+    // Setting Mute
+    $("#mute").click(function () {
+      $("#audio")[0].pause()
+    })
+  </script>
+</body>
+
+</html>
